@@ -1,7 +1,7 @@
 
-/* ================================
-   CONFIGURACIÓN GENERAL
-================================ */
+/* ========================================
+   POKEDEX MODERNA - CONFIGURACIÓN GENERAL
+======================================== */
 
 * {
     margin: 0;
@@ -10,15 +10,18 @@
 }
 
 :root {
-    --rojo: #dc0a2d;
-    --rojo-oscuro: #a80722;
-    --azul: #173f5f;
-    --amarillo: #ffcb05;
-    --fondo: #f2f4f7;
+    --rojo: #ff3864;
+    --rojo-oscuro: #d91e48;
+    --azul: #72e4ff;
+    --amarillo: #ffe66d;
+    --fondo: #10111c;
+    --fondo-secundario: #191b2b;
+    --tarjeta: #202236;
     --blanco: #ffffff;
-    --texto: #263238;
-    --texto-secundario: #64748b;
-    --sombra: 0 8px 24px rgba(23, 63, 95, 0.12);
+    --texto: #f2f3ff;
+    --texto-secundario: #a7abc5;
+    --borde: rgba(255, 255, 255, 0.09);
+    --sombra: 0 12px 35px rgba(0, 0, 0, 0.25);
 }
 
 html {
@@ -26,8 +29,11 @@ html {
 }
 
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: var(--fondo);
+    font-family: "Segoe UI", Arial, sans-serif;
+    background:
+        radial-gradient(ellipse at top left, #27204a 0%, transparent 40%),
+        radial-gradient(ellipse at bottom right, #152c42 0%, transparent 35%),
+        var(--fondo);
     color: var(--texto);
     min-height: 100vh;
 }
@@ -41,10 +47,21 @@ button {
     font-family: inherit;
 }
 
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+    outline: 3px solid var(--amarillo);
+    outline-offset: 4px;
+}
 
-/* ================================
+img {
+    max-width: 100%;
+}
+
+
+/* ========================================
    CONTENEDOR PRINCIPAL
-================================ */
+======================================== */
 
 main {
     width: 100%;
@@ -52,50 +69,57 @@ main {
 }
 
 
-/* ================================
+/* ========================================
    BARRA DE NAVEGACIÓN
-================================ */
+======================================== */
 
 nav {
-    background: linear-gradient(135deg, var(--rojo), var(--rojo-oscuro));
-    color: var(--blanco);
-    padding: 20px 6%;
+    position: sticky;
+    top: 0;
+    z-index: 100;
 
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 20px;
 
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    padding: 22px 6%;
 
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    background: rgba(16, 17, 28, 0.88);
+    color: var(--blanco);
+
+    border-bottom: 1px solid var(--borde);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
 }
 
 nav h1 {
-    font-size: 28px;
-    font-weight: 800;
+    font-size: clamp(21px, 3vw, 30px);
+    font-weight: 900;
     letter-spacing: 1px;
+    color: var(--amarillo);
+    text-transform: uppercase;
 }
 
 nav ul {
-    list-style: none;
     display: flex;
     align-items: center;
-    gap: 25px;
+    flex-wrap: wrap;
+    gap: 12px 25px;
+    list-style: none;
 }
 
 nav li {
-    font-weight: bold;
-    transition: color 0.3s ease;
+    font-weight: 600;
 }
 
 nav a {
-    color: var(--blanco);
-    text-decoration: none;
     display: inline-block;
-    transition: color 0.3s ease, transform 0.3s ease;
+    color: var(--texto-secundario);
+    text-decoration: none;
+    transition: color 0.25s ease, transform 0.25s ease;
 }
 
 nav a:hover {
@@ -104,135 +128,244 @@ nav a:hover {
 }
 
 
-/* ================================
-   CONTENEDOR DEL CATÁLOGO
-================================ */
+/* ========================================
+   BUSCADOR POKÉMON
+======================================== */
 
-.container {
-    width: 90%;
-    max-width: 1400px;
-    margin: 40px auto;
-    padding-bottom: 30px;
-
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 25px;
-}
-
-
-/* ================================
-   TARJETAS DE POKÉMON
-================================ */
-
-.pokemon-card {
-    background: var(--blanco);
-    border-radius: 20px;
-    overflow: hidden;
-
-    border: 1px solid #e5e7eb;
-    box-shadow: var(--sombra);
-
+.buscador-container {
     display: flex;
-    flex-direction: column;
-    align-items: stretch;
+    align-items: center;
+    gap: 12px;
 
-    transition:
-        transform 0.3s ease,
-        box-shadow 0.3s ease;
-
-    animation: aparecer 0.45s ease both;
+    width: 88%;
+    max-width: 680px;
+    margin: 35px auto 12px;
 }
 
-.pokemon-card:hover {
-    transform: translateY(-7px);
-    box-shadow: 0 15px 32px rgba(23, 63, 95, 0.2);
+#buscadorPokemon {
+    flex: 1;
+    min-width: 0;
+
+    padding: 15px 18px;
+
+    background: var(--fondo-secundario);
+    color: var(--texto);
+
+    border: 1px solid #393c57;
+    border-radius: 14px;
+
+    font-size: 16px;
+    outline: none;
+
+    transition: border-color 0.25s, box-shadow 0.25s;
 }
 
-
-/* ================================
-   IMAGEN DEL POKÉMON
-================================ */
-
-.pokemon-card img {
-    width: 100%;
-    height: 220px;
-    padding: 18px;
-
-    object-fit: contain;
-    display: block;
-
-    background:
-        radial-gradient(
-            circle,
-            #ffffff 0%,
-            #f1f5f9 70%,
-            #e2e8f0 100%
-        );
+#buscadorPokemon::placeholder {
+    color: #888da9;
 }
 
-
-/* ================================
-   NOMBRE DEL POKÉMON
-================================ */
-
-.pokemon-card h2 {
-    font-size: 21px;
-    text-align: center;
-    text-transform: capitalize;
-
-    margin: 20px 15px 10px;
-    color: var(--azul);
+#buscadorPokemon:focus {
+    border-color: var(--azul);
+    box-shadow: 0 0 0 4px rgba(114, 228, 255, 0.1);
 }
 
-
-/* ================================
-   INFORMACIÓN DEL POKÉMON
-================================ */
-
-.pokemon-card p {
-    font-size: 14px;
-    line-height: 1.6;
-    text-align: center;
-
-    color: var(--texto-secundario);
-    margin: 0 15px 10px;
-}
-
-
-/* ================================
-   BOTONES
-================================ */
-
-.pokemon-card button,
-.pokemon-detalle-card button,
-.error-api button {
-    border: none;
-    border-radius: 12px;
+#limpiarBusqueda {
+    padding: 15px 20px;
 
     background: var(--rojo);
     color: var(--blanco);
 
-    font-size: 15px;
-    font-weight: bold;
+    border: none;
+    border-radius: 14px;
 
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+
+    transition: background 0.25s, transform 0.25s;
+}
+
+#limpiarBusqueda:hover {
+    background: var(--rojo-oscuro);
+    transform: translateY(-2px);
+}
+
+#mensajeBusqueda {
+    margin: 12px auto 20px;
+    padding: 0 15px;
+
+    color: var(--amarillo);
+    text-align: center;
+    font-size: 14px;
+}
+
+
+/* ========================================
+   CATÁLOGO
+======================================== */
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+
+    width: 90%;
+    max-width: 1450px;
+    margin: 30px auto 50px;
+    padding-bottom: 30px;
+}
+
+
+/* ========================================
+   TARJETAS POKÉMON
+======================================== */
+
+.pokemon-card {
+    position: relative;
+    isolation: isolate;
+
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+
+    background: linear-gradient(
+        145deg,
+        #262940,
+        #1b1d30 75%
+    );
+
+    border: 1px solid var(--borde);
+    border-radius: 22px;
+    overflow: hidden;
+
+    box-shadow: var(--sombra);
+
+    transition:
+        transform 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+
+    animation: aparecer 0.5s ease both;
+}
+
+.pokemon-card::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: -60px;
+    right: -60px;
+
+    width: 150px;
+    height: 150px;
+
+    background: var(--azul);
+    opacity: 0.07;
+    border-radius: 50%;
+
+    transition: transform 0.4s ease;
+}
+
+.pokemon-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(114, 228, 255, 0.45);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+}
+
+.pokemon-card:hover::before {
+    transform: scale(1.6);
+}
+
+
+/* ========================================
+   IMÁGENES
+======================================== */
+
+.pokemon-card img {
+    display: block;
+
+    width: 100%;
+    height: 225px;
+    padding: 20px;
+
+    object-fit: contain;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(114, 228, 255, 0.15),
+            transparent 68%
+        ),
+        linear-gradient(135deg, #292d48, #1d2034);
+
+    transition: transform 0.35s ease;
+}
+
+.pokemon-card:hover img {
+    transform: scale(1.07);
+}
+
+
+/* ========================================
+   NOMBRE E INFORMACIÓN
+======================================== */
+
+.pokemon-card h2 {
+    margin: 20px 15px 10px;
+
+    color: var(--blanco);
+    font-size: 21px;
+    font-weight: 800;
+    text-align: center;
+    text-transform: capitalize;
+}
+
+.pokemon-card p {
+    margin: 0 16px 12px;
+
+    color: var(--texto-secundario);
+    font-size: 14px;
+    line-height: 1.7;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+
+/* ========================================
+   BOTONES
+======================================== */
+
+.pokemon-card button,
+.pokemon-detalle-card button,
+.error-api button {
     padding: 13px 18px;
+
+    color: #171522;
+    background: var(--amarillo);
+
+    border: none;
+    border-radius: 12px;
+
+    font-size: 14px;
+    font-weight: 800;
+
     cursor: pointer;
 
     transition:
-        background 0.3s ease,
-        transform 0.2s ease,
-        box-shadow 0.3s ease;
+        background 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
 }
 
 .pokemon-card button {
-    margin: auto 18px 20px;
+    margin: auto 16px 18px;
 }
 
 .pokemon-card button:hover,
 .pokemon-detalle-card button:hover,
 .error-api button:hover {
-    background: var(--rojo-oscuro);
-    box-shadow: 0 5px 12px rgba(220, 10, 45, 0.2);
+    background: #fff09b;
+    box-shadow: 0 6px 20px rgba(255, 230, 109, 0.15);
+    transform: translateY(-2px);
 }
 
 .pokemon-card button:active,
@@ -242,46 +375,56 @@ nav a:hover {
 }
 
 
-/* ================================
+/* ========================================
    DETALLE DEL POKÉMON
-================================ */
+======================================== */
 
 .pokemon-detalle-card {
     grid-column: 1 / -1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
 
     width: 100%;
     max-width: 850px;
     margin: 0 auto;
     padding: 35px;
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
+    background: linear-gradient(145deg, #262940, #191b2d);
 
-    background: var(--blanco);
-    border-radius: 24px;
-    border: 1px solid #e5e7eb;
+    border: 1px solid var(--borde);
+    border-radius: 28px;
 
     box-shadow: var(--sombra);
+
     animation: aparecer 0.4s ease;
 }
 
 .pokemon-detalle-card img {
-    width: 100%;
-    max-width: 320px;
-    height: 300px;
+    display: block;
 
-    object-fit: contain;
+    width: 100%;
+    max-width: 330px;
+    height: 300px;
     padding: 15px;
 
-    background: #f1f5f9;
-    border-radius: 20px;
+    object-fit: contain;
+
+    background: radial-gradient(
+        circle,
+        #343956,
+        #202338 75%
+    );
+
+    border: 1px solid var(--borde);
+    border-radius: 24px;
 }
 
 .pokemon-detalle-card h2 {
-    color: var(--azul);
-    font-size: 32px;
+    color: var(--amarillo);
+    font-size: clamp(25px, 4vw, 34px);
     text-align: center;
     text-transform: capitalize;
 }
@@ -289,106 +432,117 @@ nav a:hover {
 .pokemon-detalle-card h3 {
     width: 100%;
     margin-top: 12px;
-    padding-bottom: 10px;
+    padding-bottom: 12px;
 
-    color: var(--rojo);
+    color: var(--azul);
     font-size: 21px;
 
-    border-bottom: 2px solid #e5e7eb;
+    border-bottom: 1px solid #41445e;
 }
 
 .pokemon-detalle-card p {
     width: 100%;
+
     color: var(--texto-secundario);
     font-size: 16px;
-    line-height: 1.7;
+    line-height: 1.8;
     text-align: center;
     overflow-wrap: anywhere;
 }
 
 .pokemon-detalle-card ul {
-    width: 100%;
-    list-style: none;
-
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
+    gap: 12px;
+
+    width: 100%;
+    list-style: none;
 }
 
 .pokemon-detalle-card li {
-    background: #f1f5f9;
-    padding: 12px 15px;
-    border-radius: 10px;
+    padding: 14px 16px;
 
-    color: var(--azul);
-    font-weight: bold;
+    color: var(--texto);
+    background: #292c43;
+
+    border: 1px solid var(--borde);
+    border-radius: 13px;
+
     font-size: 14px;
+    font-weight: 600;
 
     overflow-wrap: anywhere;
 }
 
 .pokemon-detalle-card button {
-    margin-top: 15px;
     width: 100%;
     max-width: 280px;
+    margin-top: 15px;
 }
 
 
-/* ================================
+/* ========================================
    MENSAJE DE CARGA
-================================ */
+======================================== */
 
 .container > p {
     grid-column: 1 / -1;
 
-    padding: 50px 20px;
-    text-align: center;
+    padding: 55px 20px;
 
     color: var(--azul);
     font-size: 18px;
-    font-weight: bold;
+    font-weight: 700;
+    text-align: center;
 }
 
 
-/* ================================
-   MENSAJE DE ERROR
-================================ */
+/* ========================================
+   ERROR DE API
+======================================== */
 
 .error-api {
     grid-column: 1 / -1;
 
+    width: 100%;
     max-width: 600px;
     margin: 30px auto;
     padding: 35px;
 
-    background: var(--blanco);
-    border-radius: 20px;
-    box-shadow: var(--sombra);
+    background: var(--tarjeta);
 
+    border: 1px solid var(--borde);
+    border-radius: 24px;
+
+    box-shadow: var(--sombra);
     text-align: center;
 }
 
 .error-api h2 {
-    color: var(--rojo);
     margin-bottom: 15px;
+    color: var(--rojo);
 }
 
 .error-api p {
+    margin-bottom: 22px;
+
     color: var(--texto-secundario);
-    line-height: 1.6;
-    margin-bottom: 20px;
+    line-height: 1.8;
 }
 
 
-/* ================================
+/* ========================================
    PIE DE PÁGINA
-================================ */
+======================================== */
 
 footer {
-    background: var(--azul);
-    color: var(--blanco);
+    padding: 28px 18px;
 
-    padding: 25px 15px;
+    color: var(--texto-secundario);
+    background: #0b0c14;
+
+    border-top: 1px solid var(--borde);
+
     text-align: center;
     line-height: 1.8;
 }
@@ -398,14 +552,14 @@ footer p {
 }
 
 
-/* ================================
-   ANIMACIÓN
-================================ */
+/* ========================================
+   ANIMACIONES
+======================================== */
 
 @keyframes aparecer {
     from {
         opacity: 0;
-        transform: translateY(15px);
+        transform: translateY(18px);
     }
 
     to {
@@ -415,29 +569,29 @@ footer p {
 }
 
 
-/* ================================
+/* ========================================
    TABLET
-================================ */
+======================================== */
 
-@media (max-width: 1000px) {
+@media (max-width: 1050px) {
     .container {
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 20px;
     }
 
     nav {
-        padding: 18px 4%;
+        padding: 20px 4%;
     }
 
-    nav h1 {
-        font-size: 25px;
+    nav ul {
+        gap: 12px 18px;
     }
 }
 
 
-/* ================================
+/* ========================================
    TABLET PEQUEÑA
-================================ */
+======================================== */
 
 @media (max-width: 768px) {
     nav {
@@ -449,18 +603,18 @@ footer p {
     }
 
     nav ul {
-        gap: 15px;
+        gap: 12px;
     }
 
     nav a {
-        font-size: 14px;
+        font-size: 13px;
     }
 
     .container {
         width: 92%;
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 18px;
-        margin-top: 28px;
+        gap: 16px;
+        margin-top: 25px;
     }
 
     .pokemon-card img {
@@ -474,32 +628,57 @@ footer p {
     .pokemon-detalle-card {
         padding: 25px;
     }
+
+    .buscador-container {
+        width: 92%;
+    }
 }
 
 
-/* ================================
-   CELULAR
-================================ */
+/* ========================================
+   CELULARES
+======================================== */
 
 @media (max-width: 520px) {
     nav {
         flex-direction: column;
-        gap: 14px;
+        align-items: center;
+        gap: 15px;
         padding: 18px 12px;
     }
 
     nav h1 {
-        font-size: 25px;
+        font-size: 24px;
         text-align: center;
     }
 
     nav ul {
         justify-content: center;
-        flex-wrap: wrap;
-        gap: 18px;
+        gap: 12px 18px;
     }
 
     nav a {
+        font-size: 13px;
+    }
+
+    .buscador-container {
+        gap: 8px;
+        margin-top: 25px;
+    }
+
+    #buscadorPokemon {
+        padding: 13px 12px;
+        font-size: 14px;
+        border-radius: 11px;
+    }
+
+    #limpiarBusqueda {
+        padding: 13px 12px;
+        font-size: 12px;
+        border-radius: 11px;
+    }
+
+    #mensajeBusqueda {
         font-size: 13px;
     }
 
@@ -507,11 +686,11 @@ footer p {
         width: 92%;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 12px;
-        margin: 22px auto;
+        margin: 22px auto 35px;
     }
 
     .pokemon-card {
-        border-radius: 15px;
+        border-radius: 16px;
     }
 
     .pokemon-card img {
@@ -520,31 +699,31 @@ footer p {
     }
 
     .pokemon-card h2 {
+        margin: 13px 7px 8px;
         font-size: 16px;
-        margin: 13px 8px 8px;
     }
 
     .pokemon-card p {
-        font-size: 12px;
         margin: 0 8px 10px;
-        overflow-wrap: anywhere;
+        font-size: 12px;
+        line-height: 1.6;
     }
 
     .pokemon-card button {
-        margin: auto 9px 12px;
-        padding: 11px 6px;
-        font-size: 13px;
+        margin: auto 8px 10px;
+        padding: 11px 5px;
+        font-size: 12px;
         border-radius: 9px;
     }
 
     .pokemon-detalle-card {
-        padding: 20px 15px;
         gap: 13px;
-        border-radius: 18px;
+        padding: 20px 15px;
+        border-radius: 20px;
     }
 
     .pokemon-detalle-card img {
-        height: 230px;
+        height: 225px;
     }
 
     .pokemon-detalle-card h2 {
@@ -552,7 +731,7 @@ footer p {
     }
 
     .pokemon-detalle-card h3 {
-        font-size: 19px;
+        font-size: 18px;
     }
 
     .pokemon-detalle-card p {
@@ -561,21 +740,57 @@ footer p {
 
     .pokemon-detalle-card ul {
         grid-template-columns: 1fr;
+        gap: 9px;
     }
 
     .pokemon-detalle-card li {
+        padding: 12px;
         font-size: 13px;
     }
 
     .error-api {
         padding: 25px 18px;
+        border-radius: 18px;
     }
 }
 
 
-/* ================================
+/* ========================================
+   CELULARES MUY PEQUEÑOS
+======================================== */
+
+@media (max-width: 350px) {
+    .container {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .pokemon-card img {
+        height: 210px;
+    }
+
+    nav ul {
+        gap: 12px;
+    }
+
+    nav a {
+        font-size: 12px;
+    }
+
+    .buscador-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #limpiarBusqueda {
+        width: 100%;
+    }
+}
+
+
+/* ========================================
    ACCESIBILIDAD
-================================ */
+======================================== */
 
 @media (prefers-reduced-motion: reduce) {
     *,
@@ -585,66 +800,5 @@ footer p {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
-    }
-}
-
-
-
-/* Contenedor del buscador */
-.buscador-container {
-    display: flex;
-    gap: 10px;
-    width: 100%;
-    max-width: 600px;
-    margin: 20px auto;
-    box-sizing: border-box;
-}
-
-/* Campo de búsqueda */
-#buscadorPokemon {
-    flex: 1;
-    min-width: 0;
-    padding: 12px 15px;
-    border: 2px solid #d3d3d3;
-    border-radius: 10px;
-    font-size: 16px;
-    outline: none;
-    box-sizing: border-box;
-}
-
-#buscadorPokemon:focus {
-    border-color: #e3350d;
-}
-
-/* Botón para limpiar */
-#limpiarBusqueda {
-    padding: 12px 16px;
-    border: none;
-    border-radius: 10px;
-    background-color: #e3350d;
-    color: white;
-    font-size: 15px;
-    cursor: pointer;
-}
-
-#limpiarBusqueda:hover {
-    background-color: #b92708;
-}
-
-/* Mensajes del buscador */
-#mensajeBusqueda {
-    text-align: center;
-    margin: 10px 0 20px;
-    font-size: 15px;
-}
-
-/* Adaptación a pantallas pequeñas */
-@media (max-width: 480px) {
-    .buscador-container {
-        gap: 6px;
-    }
-
-    #limpiarBusqueda {
-        padding: 10px;
     }
 }
